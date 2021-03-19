@@ -188,3 +188,8 @@ Pikachu/source/libs/lib/sfml-window.lib
 Pikachu/source/libs/lib/vorbis.lib
 Pikachu/source/libs/lib/vorbisenc.lib
 Pikachu/source/libs/lib/vorbisfile.lib
+Pikachu/.vs/Pikachu/v16/ipch/AutoPCH/3dd947c71f4dac23/ENGINE.ipch
+Pikachu/.vs/Pikachu/v16/ipch/AutoPCH/82f193fc2ec7a605/PLAYER.ipch
+Pikachu/.vs/Pikachu/v16/ipch/AutoPCH/ae661bef9d6c7377/STORAGE.ipch
+Pikachu/.vs/Pikachu/v16/ipch/AutoPCH/ce1122d39876347/FOOD.ipch
+*.obj
