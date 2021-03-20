@@ -31,6 +31,12 @@
     <Filter Include="Resource Files\data">
       <UniqueIdentifier>{4a5687ff-164d-4f24-a344-4cef62784307}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\data\music">
+      <UniqueIdentifier>{e8587946-654a-4da8-aa08-80921df82a1d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\data\img">
+      <UniqueIdentifier>{bca3523a-ddd3-480e-aac1-4d3e3f16a7f5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main\main.cpp">
@@ -64,11 +70,40 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="source\data\pikachu.png">
-      <Filter>Resource Files\data</Filter>
+    <Image Include="data\fainted.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+    <Image Include="data\final score.png">
+      <Filter>Resource Files\data\img</Filter>
     </Image>
     <Image Include="source\data\food.png">
-      <Filter>Resource Files\data</Filter>
+      <Filter>Resource Files\data\img</Filter>
     </Image>
+    <Image Include="data\instructions_1.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+    <Image Include="data\intro_1.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+    <Image Include="data\intro_2.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+    <Image Include="source\data\pikachu.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+    <Image Include="data\background.png">
+      <Filter>Resource Files\data\img</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="data\music\cycling_cut.wav">
+      <Filter>Resource Files\data\music</Filter>
+    </Media>
+    <Media Include="data\music\game over.wav">
+      <Filter>Resource Files\data\music</Filter>
+    </Media>
+    <Media Include="data\music\piKAchu cute.wav">
+      <Filter>Resource Files\data\music</Filter>
+    </Media>
   </ItemGroup>
 </Project>

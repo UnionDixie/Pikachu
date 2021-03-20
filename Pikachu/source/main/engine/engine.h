@@ -13,11 +13,27 @@ public:
 	~Engine();
 	void run();
 private:
+	void LoadAssets();
 	Storage storage;
-	const std::vector<std::string_view> filenames = { "pikachu","food" };
+	Player pikachu;
+	Food food;
+	const std::vector<std::string_view>
+		  filenames = { "background","pikachu","food" };
 	std::map<std::string_view, sf::Sprite> sprites;
-	std::vector<sf::Sprite> sprites2;
+
+	std::vector<sf::Sprite*> spritesEntity;
+	std::vector<sf::Sprite>* spritesFood;
+
 	std::map<std::string_view, sf::Texture> textures;
-	std::map<std::string_view, std::tuple<int, int, int, int>> spitesRectangle
-		  = { {"pikachu",{0,80,160,155}},{"mushroom",{0,0,50,45}},{"apple",{0,55,50,45}} };
+
+	std::map<std::string_view, std::tuple<int, int, int, int>>
+	spitesRectangle = { {"pikachu",{0,80,160,155}},
+						{"mushroom",{0,0,50,45}},
+						{"food",{0,55,50,45}},
+						{"background",{0,0,960,720}}
+	};
+
+
+
+
 };

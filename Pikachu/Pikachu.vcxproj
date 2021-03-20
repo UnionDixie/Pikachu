@@ -160,8 +160,19 @@
     <ClInclude Include="source\main\storage\storage.h" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="data\background.png" />
+    <Image Include="data\fainted.png" />
+    <Image Include="data\final score.png" />
+    <Image Include="data\instructions_1.png" />
+    <Image Include="data\intro_1.png" />
+    <Image Include="data\intro_2.png" />
     <Image Include="source\data\food.png" />
     <Image Include="source\data\pikachu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="data\music\cycling_cut.wav" />
+    <Media Include="data\music\game over.wav" />
+    <Media Include="data\music\piKAchu cute.wav" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
