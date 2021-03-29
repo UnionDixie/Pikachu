@@ -13,97 +13,111 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\engine">
-      <UniqueIdentifier>{28ad094e-96ec-4c4d-972f-1103c8d59340}</UniqueIdentifier>
+    <Filter Include="Source Files\tutorial">
+      <UniqueIdentifier>{7e0f4a7a-2fc3-4231-b9d4-1e19ac358dc3}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\storage">
-      <UniqueIdentifier>{6db8de3b-abb5-4b65-bf50-ace3b5424cf2}</UniqueIdentifier>
+    <Filter Include="Resource Files\pikachu">
+      <UniqueIdentifier>{a20ad45c-887f-4f06-a278-5ebbe3389a95}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\entity">
-      <UniqueIdentifier>{d3d0f048-8455-465f-acb2-10b9ce246eed}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\entity\player">
-      <UniqueIdentifier>{bb2b1006-d226-46b7-9b25-6a7d3f7d3b34}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\entity\food">
-      <UniqueIdentifier>{fd1c7128-8bae-4fef-a04f-d59772452864}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Resource Files\data">
+    <Filter Include="Resource Files\pikachu\data">
       <UniqueIdentifier>{4a5687ff-164d-4f24-a344-4cef62784307}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\data\music">
+    <Filter Include="Resource Files\pikachu\data\music">
       <UniqueIdentifier>{e8587946-654a-4da8-aa08-80921df82a1d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files\data\img">
+    <Filter Include="Resource Files\pikachu\data\img">
       <UniqueIdentifier>{bca3523a-ddd3-480e-aac1-4d3e3f16a7f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tutorial\holder">
+      <UniqueIdentifier>{77ccd0c8-b8dc-4a47-9c05-f75893fa315e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tutorial\entity">
+      <UniqueIdentifier>{2786d478-1349-4423-870e-df46314df068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tutorial\entity\base">
+      <UniqueIdentifier>{79fd890b-bedf-42e7-8c83-eca1d4079484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tutorial\entity\player">
+      <UniqueIdentifier>{f3b82dc9-7c18-4f4d-bd6d-2c50709e8729}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\tutorial\scence">
+      <UniqueIdentifier>{9fdf28c0-fb70-48af-b51b-2e1a3f53ff2e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="source\main\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="source\main\storage\storage.cpp">
-      <Filter>Source Files\storage</Filter>
+    <ClCompile Include="source\tutorial\game.cpp">
+      <Filter>Source Files\tutorial</Filter>
     </ClCompile>
-    <ClCompile Include="source\main\engine\engine.cpp">
-      <Filter>Source Files\engine</Filter>
+    <ClCompile Include="source\tutorial\Entity.cpp">
+      <Filter>Source Files\tutorial\entity\base</Filter>
     </ClCompile>
-    <ClCompile Include="source\main\food\food.cpp">
-      <Filter>Source Files\entity\food</Filter>
+    <ClCompile Include="source\tutorial\Player.cpp">
+      <Filter>Source Files\tutorial\entity\player</Filter>
     </ClCompile>
-    <ClCompile Include="source\main\player\player.cpp">
-      <Filter>Source Files\entity\player</Filter>
+    <ClCompile Include="source\tutorial\SceneNode.cpp">
+      <Filter>Source Files\tutorial\scence</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\main\storage\storage.h">
-      <Filter>Source Files\storage</Filter>
+    <ClInclude Include="source\tutorial\game.h">
+      <Filter>Source Files\tutorial</Filter>
     </ClInclude>
-    <ClInclude Include="source\main\engine\engine.h">
-      <Filter>Source Files\engine</Filter>
+    <ClInclude Include="source\tutorial\ResourceHolder.hpp">
+      <Filter>Source Files\tutorial\holder</Filter>
     </ClInclude>
-    <ClInclude Include="source\main\food\food.h">
-      <Filter>Source Files\entity\food</Filter>
+    <ClInclude Include="source\tutorial\Entity.h">
+      <Filter>Source Files\tutorial\entity\base</Filter>
     </ClInclude>
-    <ClInclude Include="source\main\player\player.h">
-      <Filter>Source Files\entity\player</Filter>
+    <ClInclude Include="source\tutorial\Player.h">
+      <Filter>Source Files\tutorial\entity\player</Filter>
+    </ClInclude>
+    <ClInclude Include="source\tutorial\SceneNode.h">
+      <Filter>Source Files\tutorial\scence</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\fainted.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="data\final score.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="source\data\food.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="data\instructions_1.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="data\intro_1.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="data\intro_2.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="source\data\pikachu.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
     <Image Include="data\background.png">
-      <Filter>Resource Files\data\img</Filter>
+      <Filter>Resource Files\pikachu\data\img</Filter>
     </Image>
   </ItemGroup>
   <ItemGroup>
     <Media Include="data\music\cycling_cut.wav">
-      <Filter>Resource Files\data\music</Filter>
+      <Filter>Resource Files\pikachu\data\music</Filter>
     </Media>
     <Media Include="data\music\game over.wav">
-      <Filter>Resource Files\data\music</Filter>
+      <Filter>Resource Files\pikachu\data\music</Filter>
     </Media>
     <Media Include="data\music\piKAchu cute.wav">
-      <Filter>Resource Files\data\music</Filter>
+      <Filter>Resource Files\pikachu\data\music</Filter>
     </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\tutorial\ResourceHolder.inl">
+      <Filter>Source Files\tutorial\holder</Filter>
+    </None>
   </ItemGroup>
 </Project>

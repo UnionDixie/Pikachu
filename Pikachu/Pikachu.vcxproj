@@ -147,17 +147,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\main\engine\engine.cpp" />
-    <ClCompile Include="source\main\food\food.cpp" />
     <ClCompile Include="source\main\main.cpp" />
-    <ClCompile Include="source\main\player\player.cpp" />
-    <ClCompile Include="source\main\storage\storage.cpp" />
+    <ClCompile Include="source\tutorial\Entity.cpp" />
+    <ClCompile Include="source\tutorial\game.cpp" />
+    <ClCompile Include="source\tutorial\Player.cpp" />
+    <ClCompile Include="source\tutorial\SceneNode.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="source\main\engine\engine.h" />
-    <ClInclude Include="source\main\food\food.h" />
-    <ClInclude Include="source\main\player\player.h" />
-    <ClInclude Include="source\main\storage\storage.h" />
+    <ClInclude Include="source\tutorial\Entity.h" />
+    <ClInclude Include="source\tutorial\game.h" />
+    <ClInclude Include="source\tutorial\Player.h" />
+    <ClInclude Include="source\tutorial\ResourceHolder.hpp" />
+    <ClInclude Include="source\tutorial\SceneNode.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="data\background.png" />
@@ -173,6 +174,9 @@
     <Media Include="data\music\cycling_cut.wav" />
     <Media Include="data\music\game over.wav" />
     <Media Include="data\music\piKAchu cute.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="source\tutorial\ResourceHolder.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
