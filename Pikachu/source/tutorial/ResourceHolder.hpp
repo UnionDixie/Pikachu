@@ -9,8 +9,6 @@
 #include <string>
 #include <string_view>
 
-
-
 template<typename Resource, typename ID>
 class ResourceHolder
 {

@@ -8,13 +8,13 @@ class Player : public Entity
 {
 public:
 	typedef ResourceHolder<sf::Texture, std::string> TextureHolder;
-	TextureHolder tHolder;
+	//TextureHolder tHolder;
 	enum class Type
 	{
 		Live,
 		Death,
 	};
-	explicit Player(Type type);
+	explicit Player(Type type, const TextureHolder& textures);
 	virtual void drawCurrent(sf::RenderTarget& target,
 							 sf::RenderStates states) const;
 	~Player();

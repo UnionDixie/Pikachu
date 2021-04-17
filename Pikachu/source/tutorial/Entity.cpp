@@ -14,11 +14,11 @@ sf::Vector2f Entity::getVelocity() const
 	return velocity;
 }
 
-Entity::~Entity()
-{
-}
-
 void Entity::updateCurrent(sf::Time dt)
 {
 	sf::Transformable::move(velocity * dt.asSeconds());
+}
+
+Entity::~Entity()
+{
 }

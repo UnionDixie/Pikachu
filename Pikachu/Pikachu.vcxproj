@@ -88,14 +88,14 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)source\libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>S:\E\Git\Pikachu\Pikachu\book\Include;$(SolutionDir)source\libs\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)source\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;gdi32.lib;freetype.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;gdi32.lib;freetype.lib;sfml-graphics-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;sfml-system-s-d.lib;sfml-network-s-d.lib;ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -110,7 +110,7 @@
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -147,20 +147,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="source\main\main.cpp" />
-    <ClCompile Include="source\tutorial\Entity.cpp" />
-    <ClCompile Include="source\tutorial\game.cpp" />
-    <ClCompile Include="source\tutorial\Player.cpp" />
-    <ClCompile Include="source\tutorial\SceneNode.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="source\tutorial\Entity.h" />
-    <ClInclude Include="source\tutorial\game.h" />
-    <ClInclude Include="source\tutorial\Player.h" />
-    <ClInclude Include="source\tutorial\ResourceHolder.hpp" />
-    <ClInclude Include="source\tutorial\SceneNode.h" />
-  </ItemGroup>
-  <ItemGroup>
     <Image Include="data\background.png" />
     <Image Include="data\fainted.png" />
     <Image Include="data\final score.png" />
@@ -174,6 +160,20 @@
     <Media Include="data\music\cycling_cut.wav" />
     <Media Include="data\music\game over.wav" />
     <Media Include="data\music\piKAchu cute.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="source\main\main.cpp" />
+    <ClCompile Include="source\tutorial\Entity.cpp" />
+    <ClCompile Include="source\tutorial\game.cpp" />
+    <ClCompile Include="source\tutorial\Player.cpp" />
+    <ClCompile Include="source\tutorial\SceneNode.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="source\tutorial\Entity.h" />
+    <ClInclude Include="source\tutorial\game.h" />
+    <ClInclude Include="source\tutorial\Player.h" />
+    <ClInclude Include="source\tutorial\ResourceHolder.hpp" />
+    <ClInclude Include="source\tutorial\SceneNode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tutorial\ResourceHolder.inl" />

@@ -4,6 +4,7 @@
 #include <cassert>
 
 #include "ResourceHolder.hpp"
+#include "Player.h"
 
 class Game
 {
@@ -12,8 +13,12 @@ public:
 	void run();
 	~Game();
 private:
-	ResourceHolder<sf::Texture, std::string> tHolder;
-	
+	typedef ResourceHolder<sf::Texture, std::string> TextureHolder;
+	TextureHolder tHolder;
+
+	//Player player;
+	sf::View view,player1,player2,minimap;
+
 	void processEvents();
 	void update(sf::Time);
 	void render();
