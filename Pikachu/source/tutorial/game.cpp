@@ -1,141 +1,241 @@
 #include "game.h"
 
-Game::Game() : window(sf::VideoMode(960,720),"Game"), 
-			   view(sf::Vector2f(0.f, 0.f), sf::Vector2f(960.f, 720.f))
-			   //player1(sf::Vector2f(480.f, 360.f), sf::Vector2f(960.f, 720.f)),
-			   //player2(sf::Vector2f(480.f, 360.f), sf::Vector2f(960.f, 720.f))
-			//, player(0, tHolder)
+#include <random>
+#include <iostream>
+
+
+
+int rnd() {
+	std::random_device r;
+	std::default_random_engine e1(r());
+	int a = 50, b = 900;
+	std::uniform_int_distribution<int> uniform_dist(a, b);
+	return uniform_dist(e1);
+}
+
+Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 {
-	//view.setViewport(sf::FloatRect(0.25f, 0.25, 0.5f, 0.5f));
-	//window.setFramerateLimit(60);
-	//window.setVerticalSyncEnabled(true);
-	int cnt = 0;
-	for (auto&& name : names) {
-		tHolder.load(name,"data/"+name+".png");
-		if (auto&& found = tHolder.get(name); found != std::nullopt) {
-			auto it = sprites.try_emplace(name,*found);
-			if (it.second) {
-				auto size = found->get().getSize();
-				sprites[name].setOrigin(size.x / 2, size.y / 2);
-			}
-		}
-	}
-	sprites["pikachu"].setPosition(sf::Vector2f(230, 250));
+	window.setFramerateLimit(60);
 
-	// player 1 (left side of the screen)
-	//player1.setViewport(sf::FloatRect(0.f, 0.f, 0.5f, 1.f));
-	// player 2 (right side of the screen)
-	//player2.setViewport(sf::FloatRect(0.5f, 0.f, 0.5f, 1.f));
+	sf::Texture backT, playerT, enemyT, foodT, finalScoreT, menuT;
+	backT.loadFromFile("data/background.png");
+	playerT.loadFromFile("data/pikachu.png");
+	enemyT.loadFromFile("data/enemy.png");
+	foodT.loadFromFile("data/food.png");
+	finalScoreT.loadFromFile("data/finalScore.png");
+	menuT.loadFromFile("data/intro_2.png");
 
+	textures["background"] = std::make_unique<sf::Texture>(backT);
+	textures["pikachu"] = std::make_unique<sf::Texture>(playerT);
+	textures["enemy"] = std::make_unique<sf::Texture>(enemyT);
+	textures["food"] = std::make_unique<sf::Texture>(foodT);
+	textures["finalScore"] = std::make_unique<sf::Texture>(finalScoreT);
+	textures["intro_2"] = std::make_unique<sf::Texture>(menuT);
+
+	player = sf::Sprite(*textures["pikachu"].get());
+	background = sf::Sprite(*textures["background"].get());
+	food = sf::Sprite(*textures["food"].get());
+	enemy = sf::Sprite(*textures["enemy"].get());
+	end = sf::Sprite(*textures["finalScore"].get());
+	menu = sf::Sprite(*textures["intro_2"].get());
+
+	player.setPosition(500, 530);
+	food.setPosition(500, 10);
+	enemy.setPosition(300, 10);
+
+	sprites.push_back(&background);
 	
-	//view.setViewport(sf::FloatRect(0.f, 0.f, 1.f, 1.f));//full game
-	//minimap.setViewport(sf::FloatRect(0.75f, 0.f, 0.25f, 0.25f));
 
-	view.setCenter(sprites["pikachu"].getPosition());
+	const int y = 5;
+	for (size_t i = 0; i < 5; i++)
+	{
+		auto x = rnd();
+		entity.push_back(std::make_pair(food, 1));
+		entity.rbegin()->first.setPosition(sf::Vector2f(x, y));
+		x = rnd();
+		entity.push_back(std::make_pair(enemy, 2));
+		entity.rbegin()->first.setPosition(sf::Vector2f(x, y));
+	}
 
+	font.loadFromFile("data/fonts/OpenSans-Bold.ttf");
+	text.setFont(font);
+	text.setFillColor(sf::Color::Red);
+	text.setString("Fuck off");
+	text.setPosition(200, 200);
+	text.setCharacterSize(30);
 
+	meow.loadFromFile("data/music/piKAchu cute.wav");
+	gameover.loadFromFile("data/music/game over.wav");
+	fonMusic.loadFromFile("data/music/cycling_cut.wav");
+
+	s1.setBuffer(meow);
+	s2.setBuffer(gameover);
+	s3.setBuffer(fonMusic);
+	
+	s3.setLoop(true);
+	
 }
 
 void Game::run() {
-	sf::Clock clock;
-	sf::Time timeSinceLastUpdate = sf::Time::Zero;
-	
+	s3.play();
+	while (isMenu)
+	{
+		window.clear(sf::Color::White);
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				window.close();
+				isMenu = false;
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+					isMenu = false;
+				}
+			}
+		}
+		window.draw(menu);
+		window.display();
+	}
 	while (window.isOpen())
 	{
-		processEvents();
-		timeSinceLastUpdate += clock.restart();
-		while (timeSinceLastUpdate > TimePerFrame)
-		{
-			timeSinceLastUpdate -= TimePerFrame;
-			processEvents();
-			update(TimePerFrame);
+		if (live) {
+			update();
+			render();
 		}
-		render();
+		else {	
+			window.clear(sf::Color::White);
+			sf::Event event;
+			while (window.pollEvent(event))
+			{
+				if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+					window.close();
+				if (event.type == sf::Event::KeyPressed) {
+					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+						live = true;
+
+						for (auto&& it : entity)
+						{
+							it.first.setPosition(sf::Vector2f(rnd(), -5));
+						}
+
+						hp = 100;
+						score = 0;
+						text.setPosition(200, 200);
+						player.setPosition(500, 530);
+						s3.play();
+					}
+				}
+			}
+			window.draw(end);
+			window.draw(text);
+			window.display();
+		}
 	}
 }
 
-void Game::processEvents()
+void Game::update()
 {
+	const sf::Vector2f gravity = sf::Vector2f(0.f, 9.8f);
+
+	sf::Vector2f move = sf::Vector2f(0.f, 0.f);
 	sf::Event event;
 	while (window.pollEvent(event))
-	{		
-		switch (event.type)
-		{
-		case sf::Event::KeyPressed:
-			handleInput(event.key.code, true);
-			break;
-		case sf::Event::KeyReleased:
-			handleInput(event.key.code, false);
-			break;
-		case sf::Event::Closed:
+	{
+		if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			window.close();
-			break;
-		default:
-			break;
-		}
-	}
-}
+		if (event.type == sf::Event::KeyPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !jump) {
+				s1.play();
+				move.y = -25.0f;
+				jump = true;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+				move.x = -1.0f;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+				move.x = 1.0f;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::F1)) {
+				hp = 1000;
+			}
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::F2)) {
+				hp = 100;
+			}
 
-void Game::update(sf::Time deltaTime)
-{
-	sf::Vector2f move(0.f, 0.f);
-	/*for (const auto& it : keyboards) {
-		if (it.second) {
-			move
+		}	
+	}
+	sf::Vector2f speed = sf::Vector2f(5.0f, 5.0f);
+	move.x *= speed.x;
+	move.y *= speed.y;
+
+	player.move(move);
+
+	if (player.getPosition().x < 1 || player.getPosition().x > 800) {
+		player.setPosition(player.getPosition() - move);
+	}
+	if (player.getPosition().y < 530 && jump) {
+		player.move(sf::Vector2f(0.0f, 1.0f));
+	}
+	if (player.getPosition().y >= 530) {
+		jump = false;
+	}
+
+	
+	float timeSpeed = 0.4f;
+
+
+	for (auto it = entity.begin(); it != entity.end(); it++) {
+		it->first.move(timeSpeed * gravity);
+
+		if (it->first.getGlobalBounds().intersects(player.getGlobalBounds())) {
+			if (it->second == 1) {
+				if (hp < 100)
+					hp++;
+				score++;
+			}
+			else {
+				hp -= 25;//quat of life
+			}
+			it->first.setPosition(sf::Vector2f(rnd(), 5));
+			std::cout << hp << " " << score << "\n";
+
+			if (hp <= 0) {
+				live = false;
+				s3.stop();
+				s2.play();
+				text.setString(std::to_string(score));
+				text.setPosition(sf::Vector2f(505, 630));
+				return;
+			}
+
 		}
-	}*/
-	sf::Vector2f moveView;
-	if (IsMovingUp) {
-		move.y -= playerSpeed;
-		moveView.y -= playerSpeed;
+		const int y = -5;
+		if (it != entity.end() && it->first.getPosition().y > 720) {
+			it->first.setPosition(sf::Vector2f(rnd(), 5));
+		}
 	}
-	if (IsMovingDown) {
-		move.y += playerSpeed;
-		moveView.y += playerSpeed;
-	}
-	if (IsMovingLeft) {
-		move.x -= playerSpeed;
-		moveView.x -= playerSpeed;
-	}
-	if (IsMovingRight) {
-		move.x += playerSpeed;
-		moveView.x += playerSpeed;
-	}
-	sprites["pikachu"].move(move * deltaTime.asSeconds());
-	view.move(moveView * deltaTime.asSeconds());
+
+	text.setString(std::string("HP: ") + std::to_string(hp));
+
 }
 
 void Game::render()
 {
-	window.setView(view);
 	window.clear(sf::Color::White);
-	for (auto&& it : sprites) {
-		window.draw(it.second);
+	for (const auto& it : sprites) {
+		window.draw(*it);
 	}
-	/*window.setView(minimap);
-	for (auto&& it : sprites) {
-		window.draw(it.second);
-	}*/
-
+	window.draw(text);
+	for (const auto& it : entity) {
+		window.draw(it.first);
+	}
+	window.draw(player);
 	window.display();
 	
 }
 
-void Game::handleInput(sf::Keyboard::Key key, bool isPressed)
-{
-	//keyboards[key] = isPressed;
-	if (key == sf::Keyboard::W)
-		IsMovingUp = isPressed;
-	else if (key == sf::Keyboard::S)
-		IsMovingDown = isPressed;
-	else if (key == sf::Keyboard::A)
-		IsMovingLeft = isPressed;
-	else if (key == sf::Keyboard::D)
-		IsMovingRight = isPressed;
-	else if (key == sf::Keyboard::Escape)
-		window.close();
 
-}
 
 
 Game::~Game()

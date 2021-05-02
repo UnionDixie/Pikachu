@@ -1,43 +1,39 @@
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <vector>
+#include <list>
 #include <map>
-#include <cassert>
-
-#include "ResourceHolder.hpp"
-#include "Player.h"
+#include <memory>
 
 class Game
 {
 public:
 	Game();
 	void run();
-	~Game();
+	~Game();	
 private:
-	typedef ResourceHolder<sf::Texture, std::string> TextureHolder;
-	TextureHolder tHolder;
-
-	//Player player;
-	sf::View view,player1,player2,minimap;
-
-	void processEvents();
-	void update(sf::Time);
+	void update();
 	void render();
-	void handleInput(sf::Keyboard::Key,bool);
-	
+private:
 	sf::RenderWindow window;
+	sf::Sprite background, player, food, enemy, end, menu;
+	std::map<std::string, std::unique_ptr<sf::Texture>> textures;
+	std::list<sf::Sprite*> sprites;
 
-	//std::map < sf::Keyboard::Key , bool > keyboards;
+	std::list<std::pair<sf::Sprite,int>> entity;
 
-	bool IsMovingUp = false,//w
-		 IsMovingDown = false,//s
-		 IsMovingLeft = false,//a
-		 IsMovingRight = false;//d
-	const float playerSpeed = 100.f;
-	const sf::Time TimePerFrame 
-		  = sf::seconds(1.f / 60.f);
-	
-	const std::vector<std::string> names
-		  = { "background","pikachu" };	
-	std::map<std::string, sf::Sprite> sprites;
+	int score = 0;
+	int hp = 100;
+	bool live = true;
+	bool jump = false;
+	bool isMenu = true;
+
+	sf::Font font;
+	sf::Text text;
+
+	sf::SoundBuffer meow,gameover,fonMusic;
+	sf::Sound s1, s2,s3;
+
 };
+
 

@@ -115,7 +115,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)source\libs\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>opengl32.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-audio-s.lib;sfml-system-s.lib;sfml-main.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;gdi32.lib;freetype.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -166,17 +166,19 @@
     <ClCompile Include="source\tutorial\Entity.cpp" />
     <ClCompile Include="source\tutorial\game.cpp" />
     <ClCompile Include="source\tutorial\Player.cpp" />
-    <ClCompile Include="source\tutorial\SceneNode.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="source\tutorial\Entity.h" />
     <ClInclude Include="source\tutorial\game.h" />
     <ClInclude Include="source\tutorial\Player.h" />
     <ClInclude Include="source\tutorial\ResourceHolder.hpp" />
-    <ClInclude Include="source\tutorial\SceneNode.h" />
+    <ClInclude Include="source\tutorial\rnd.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="source\tutorial\ResourceHolder.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="source\Text.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
