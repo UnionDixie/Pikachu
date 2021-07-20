@@ -14,6 +14,9 @@ public:
 private:
 	void update();
 	void render();
+	void renderGame();
+	void renderMenu();
+	void renderEnd();
 private:
 	sf::RenderWindow window;
 	sf::Sprite background, player, food, enemy, end, menu;
@@ -27,6 +30,7 @@ private:
 	bool live = true;
 	bool jump = false;
 	bool isMenu = true;
+	bool isRun = true;
 
 	sf::Font font;
 	sf::Text text;

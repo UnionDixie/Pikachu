@@ -3,8 +3,6 @@
 #include <random>
 #include <iostream>
 
-
-
 int rnd() {
 	std::random_device r;
 	std::default_random_engine e1(r());
@@ -46,7 +44,7 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 	sprites.push_back(&background);
 	
 
-	const int y = 5;
+	const int y = -5;
 	for (size_t i = 0; i < 5; i++)
 	{
 		auto x = rnd();
@@ -60,7 +58,7 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 	font.loadFromFile("data/fonts/OpenSans-Bold.ttf");
 	text.setFont(font);
 	text.setFillColor(sf::Color::Red);
-	text.setString("Fuck off");
+	text.setString("0_0");
 	text.setPosition(200, 200);
 	text.setCharacterSize(30);
 
@@ -73,65 +71,14 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 	s3.setBuffer(fonMusic);
 	
 	s3.setLoop(true);
+	s3.setVolume(10.f);
 	
 }
 
 void Game::run() {
 	s3.play();
-	while (isMenu)
-	{
-		window.clear(sf::Color::White);
-		sf::Event event;
-		while (window.pollEvent(event))
-		{
-			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
-				window.close();
-				isMenu = false;
-			}
-			if (event.type == sf::Event::KeyPressed) {
-				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-					isMenu = false;
-				}
-			}
-		}
-		window.draw(menu);
-		window.display();
-	}
-	while (window.isOpen())
-	{
-		if (live) {
-			update();
-			render();
-		}
-		else {	
-			window.clear(sf::Color::White);
-			sf::Event event;
-			while (window.pollEvent(event))
-			{
-				if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
-					window.close();
-				if (event.type == sf::Event::KeyPressed) {
-					if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
-						live = true;
-
-						for (auto&& it : entity)
-						{
-							it.first.setPosition(sf::Vector2f(rnd(), -5));
-						}
-
-						hp = 100;
-						score = 0;
-						text.setPosition(200, 200);
-						player.setPosition(500, 530);
-						s3.play();
-					}
-				}
-			}
-			window.draw(end);
-			window.draw(text);
-			window.display();
-		}
-	}
+	renderMenu();
+	renderGame();	
 }
 
 void Game::update()
@@ -181,9 +128,7 @@ void Game::update()
 		jump = false;
 	}
 
-	
 	float timeSpeed = 0.4f;
-
 
 	for (auto it = entity.begin(); it != entity.end(); it++) {
 		it->first.move(timeSpeed * gravity);
@@ -233,6 +178,72 @@ void Game::render()
 	window.draw(player);
 	window.display();
 	
+}
+
+void Game::renderGame()
+{
+	while (window.isOpen() && isRun)
+	{
+		if (live) {
+			update();
+			render();
+		}
+		else {
+			renderEnd();
+		}
+	}
+}
+
+void Game::renderMenu()
+{
+	while (isMenu && isRun)
+	{
+		window.clear(sf::Color::White);
+		sf::Event event;
+		while (window.pollEvent(event))
+		{
+			if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {
+				window.close();
+				isMenu = false;
+				isRun = false;
+			}
+			if (event.type == sf::Event::KeyPressed) {
+				if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+					isMenu = false;
+				}
+			}
+		}
+		window.draw(menu);
+		window.display();
+	}
+}
+
+void Game::renderEnd()
+{
+	window.clear(sf::Color::White);
+	sf::Event event;
+	while (window.pollEvent(event))
+	{
+		if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
+			window.close();
+		if (event.type == sf::Event::KeyPressed) {
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space)) {
+				live = true;
+				for (auto&& it : entity)
+				{
+					it.first.setPosition(sf::Vector2f(rnd(), -5));
+				}
+				hp = 100;
+				score = 0;
+				text.setPosition(200, 200);
+				player.setPosition(500, 530);
+				s3.play();
+			}
+		}
+	}
+	window.draw(end);
+	window.draw(text);
+	window.display();
 }
 
 
