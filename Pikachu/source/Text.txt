@@ -1,0 +1,160 @@
+#include <SFML/Graphics.hpp>
+#include <vector>
+#include <map>
+
+//#include <cassert>
+//#include "ResourceHolder.hpp"
+//#include "Player.h"
+
+class Game
+{
+public:
+	Game();
+	void run();
+	~Game();	
+private:
+	//void processEvents();
+	//void update(sf::Time);
+	void update();
+	void render();
+	//void handleInput(sf::Keyboard::Key,bool);
+private:
+	//typedef ResourceHolder<sf::Texture, std::string> TextureHolder;
+	//TextureHolder tHolder;
+
+	//Player player;
+	//sf::View view;
+	sf::RenderWindow window;
+	//sf::Vector2f vec;
+	//const sf::Time TimePerFrame 
+	//	  = sf::seconds(1.f / 60.f);
+	/*const std::vector<std::string> names
+		  = { "background","pikachu","enemy","food" };*/
+	sf::Sprite background;
+	sf::Sprite player;
+	//std::list<sf::Sprite> sprites;
+	//std::list<Entity> entity;
+};
+
+
+
+#include "game.h"
+
+Game::Game() : window(sf::VideoMode(960,720),"Game"), 
+			   view(sf::Vector2f(0.f, 0.f), sf::Vector2f(960.f, 720.f))
+{
+	for (auto&& name : names) {
+		tHolder.load(name, "data/" + name + ".png");
+	}
+
+	player.setTexture(*tHolder.get("pikachu"));
+	background.setTexture(*tHolder.get("background"));
+
+	view.setCenter(player.drawSprite.getPosition());
+
+	sprites.push_back(background);
+
+	auto food = *tHolder.get("food");
+	auto enemy = *tHolder.get("enemy");
+
+	for (size_t i = 0; i < 10; i++)
+	{
+		if (i % 2) {
+			entity.emplace_back(enemy,2);
+		}
+		else {
+			entity.emplace_back(food, 1);
+		}
+	}
+
+}
+
+void Game::run() {
+	sf::Clock clock;
+	sf::Time timeSinceLastUpdate = sf::Time::Zero;
+	
+	while (window.isOpen())
+	{
+		processEvents();
+		timeSinceLastUpdate += clock.restart();
+		while (timeSinceLastUpdate > TimePerFrame)
+		{
+			timeSinceLastUpdate -= TimePerFrame;
+			processEvents();
+			update(TimePerFrame);
+		}
+		render();
+	}
+}
+
+void Game::processEvents()
+{
+	sf::Event event;
+	while (window.pollEvent(event))
+	{		
+		switch (event.type)
+		{
+		case sf::Event::KeyPressed:
+			handleInput(event.key.code, true);
+			break;
+		case sf::Event::KeyReleased:
+			handleInput(event.key.code, false);
+			break;
+		case sf::Event::Closed:
+			window.close();
+			break;
+		default:
+			break;
+		}
+	}
+}
+
+void Game::update(sf::Time deltaTime)
+{
+	sf::Vector2f move = vec;
+	if (move.x != 0 || move.y != 0) {
+		player.update(deltaTime, move);
+	}
+	player.checkColl(entity);
+
+	view.move(move * deltaTime.asSeconds());
+}
+
+void Game::update()
+{
+}
+
+void Game::render()
+{
+	window.setView(view);
+	window.clear(sf::Color::White);
+	for (auto&& it : sprites) {
+		window.draw(it);
+	}
+	for (auto&& it : entity) {
+		window.draw(it);
+	}
+	window.draw(player);
+
+	window.display();
+	
+}
+
+void Game::handleInput(sf::Keyboard::Key key, bool isPressed)
+{
+	if (key == sf::Keyboard::W)
+		vec = sf::Vector2f(0, -1);
+	else if (key == sf::Keyboard::S)
+		vec = sf::Vector2f(0, 1);
+	else if (key == sf::Keyboard::A)
+		vec = sf::Vector2f(-1, 0);
+	else if (key == sf::Keyboard::D)
+		vec = sf::Vector2f(1, 0);
+	if (key == sf::Keyboard::Escape)
+		window.close();
+}
+
+
+Game::~Game()
+{
+}

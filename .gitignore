@@ -18,21 +18,5 @@
 *.exp
 *.exe
 *.rar
-/Pikachu/book/
-/Pikachu/source/libs/
 /Pikachu/Debug/
-Pikachu/Release/data/background.png
-Pikachu/Release/data/enemy.png
-Pikachu/Release/data/fainted.png
-Pikachu/Release/data/finalScore.png
-Pikachu/Release/data/fonts/OpenSans-Bold.ttf
-Pikachu/Release/data/food.png
-Pikachu/Release/data/instructions_1.png
-Pikachu/Release/data/intro_1.png
-Pikachu/Release/data/intro_2.png
-Pikachu/Release/data/music/cycling_cut.wav
-Pikachu/Release/data/music/game over.wav
-Pikachu/Release/data/music/piKAchu cute.wav
-Pikachu/Release/data/pikachu — копия.png
-Pikachu/Release/data/pikachu.png
-Pikachu/Release/Pikachu.vcxproj.FileListAbsolute.txt
+Pikachu/Release/
