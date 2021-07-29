@@ -19,4 +19,5 @@
 *.exe
 *.rar
 /Pikachu/Debug/
-Pikachu/Release/
+/Pikachu/Release/
+/Pikachu/packages/

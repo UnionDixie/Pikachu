@@ -15,13 +15,15 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 {
 	window.setFramerateLimit(60);
 
-	sf::Texture backT, playerT, enemyT, foodT, finalScoreT, menuT;
+	sf::Texture backT, playerT, enemyT, foodT, finalScoreT, menuT, ground;
 	backT.loadFromFile("data/background.png");
 	playerT.loadFromFile("data/pikachu.png");
 	enemyT.loadFromFile("data/enemy.png");
 	foodT.loadFromFile("data/food.png");
 	finalScoreT.loadFromFile("data/finalScore.png");
 	menuT.loadFromFile("data/intro_2.png");
+	//
+	ground.loadFromFile("data/ground.png");
 
 	textures["background"] = std::make_unique<sf::Texture>(backT);
 	textures["pikachu"] = std::make_unique<sf::Texture>(playerT);
@@ -29,6 +31,8 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 	textures["food"] = std::make_unique<sf::Texture>(foodT);
 	textures["finalScore"] = std::make_unique<sf::Texture>(finalScoreT);
 	textures["intro_2"] = std::make_unique<sf::Texture>(menuT);
+	//
+	textures["ground"] = std::make_unique<sf::Texture>(ground);
 
 	player = sf::Sprite(*textures["pikachu"].get());
 	background = sf::Sprite(*textures["background"].get());
@@ -36,13 +40,50 @@ Game::Game() : window(sf::VideoMode(960,720),"PIKACHU >_<")
 	enemy = sf::Sprite(*textures["enemy"].get());
 	end = sf::Sprite(*textures["finalScore"].get());
 	menu = sf::Sprite(*textures["intro_2"].get());
+	//
+	earth = sf::Sprite(*textures["ground"].get());
 
-	player.setPosition(500, 530);
+	player.setPosition(500, 430);
 	food.setPosition(500, 10);
 	enemy.setPosition(300, 10);
+	//
+	earth.setPosition(0, 580);
 
 	sprites.push_back(&background);
+	//
+	//sprites.push_back(&earth);
+
+
+	auto setWall = [&](int x, int y, int w, int h) {
+		b2PolygonShape gr;
+		gr.SetAsBox(w / SCALE, h / SCALE);
+
+		b2BodyDef bdef;
+		bdef.position.Set(x / SCALE, y / SCALE);
+
+		b2Body* b_ground = World.CreateBody(&bdef);
+		b_ground->CreateFixture(&gr, 1);
+	};
+	setWall(445, 600, 700, 50);
+	setWall(-18, 0, 1, 700);
+	setWall(840, 0, 1, 1000);
+	setWall(0, 0, 2000, 1);
+	//setWall(445, 600, 700, 40);
 	
+
+
+	b2BodyDef bdef;
+	bdef.type = b2_dynamicBody;
+
+	///////////////////////
+	bdef.position.Set(2, 2);
+	b2CircleShape circle;
+	circle.m_radius = 16 / SCALE;
+	pBody = World.CreateBody(&bdef);
+	pBody->CreateFixture(&circle, 2);
+	pBody->SetUserData((void*)"player");
+
+
 
 	const int y = -5;
 	for (size_t i = 0; i < 5; i++)
@@ -83,19 +124,39 @@ void Game::run() {
 
 void Game::update()
 {
+	World.Step(1 / 60.f, 8, 3);
+
+	/////check if onGround//////
+	bool onGround = 0;
+	b2Vec2 pos = pBody->GetPosition();
+	pos.y += 17 / SCALE;
+	for (b2Body* it = World.GetBodyList(); it != 0; it = it->GetNext())
+		for (b2Fixture* f = it->GetFixtureList(); f != 0; f = f->GetNext())
+			if (f->TestPoint(pos))  onGround = true;
+	/////////////////////////////
+
+
 	const sf::Vector2f gravity = sf::Vector2f(0.f, 9.8f);
 
 	sf::Vector2f move = sf::Vector2f(0.f, 0.f);
 	sf::Event event;
 	while (window.pollEvent(event))
 	{
+
+		b2Vec2 vel = pBody->GetLinearVelocity();
+		float  angVel = pBody->GetAngularVelocity();
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) if (vel.x < 20) { pBody->ApplyForceToCenter(b2Vec2(40, 0),0); if (angVel < 15) pBody->ApplyTorque(10,0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))  if (vel.x > -20) { pBody->ApplyForceToCenter(b2Vec2(-40, 0),0); if (angVel > -15)  pBody->ApplyTorque(-10,0); }
+		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))    if (onGround)  pBody->ApplyForceToCenter(b2Vec2(0, -1200),0);
+
+
 		if (event.type == sf::Event::Closed || sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
 			window.close();
 		if (event.type == sf::Event::KeyPressed) {
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::W) && !jump) {
 				s1.play();
-				move.y = -25.0f;
-				jump = true;
+				//move.y = -25.0f;
+				//jump = true;
 			}
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
 				move.x = -1.0f;
@@ -112,9 +173,26 @@ void Game::update()
 
 		}	
 	}
+
+
+	for (b2Body* it = World.GetBodyList(); it != 0; it = it->GetNext())
+	{
+		b2Vec2 pos = it->GetPosition();
+		float angle = it->GetAngle();
+
+		if (it->GetUserData() == "player")
+		{
+			player.setPosition(pos.x * SCALE, pos.y * SCALE);
+			//player.setRotation(angle * DEG);
+			//window.draw(sPlayer);
+		}
+	}
+
+
+
 	sf::Vector2f speed = sf::Vector2f(5.0f, 5.0f);
 	move.x *= speed.x;
-	move.y *= speed.y;
+	//move.y *= speed.y;
 
 	player.move(move);
 
@@ -122,10 +200,10 @@ void Game::update()
 		player.setPosition(player.getPosition() - move);
 	}
 	if (player.getPosition().y < 530 && jump) {
-		player.move(sf::Vector2f(0.0f, 1.0f));
+		//player.move(sf::Vector2f(0.0f, 1.0f));
 	}
 	if (player.getPosition().y >= 530) {
-		jump = false;
+		//jump = false;
 	}
 
 	float timeSpeed = 0.4f;

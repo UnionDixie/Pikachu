@@ -5,6 +5,8 @@
 #include <map>
 #include <memory>
 
+#include <Box2D/Box2D.h>
+
 class Game
 {
 public:
@@ -18,8 +20,15 @@ private:
 	void renderMenu();
 	void renderEnd();
 private:
+	const float SCALE = 30.f;
+	const float DEG = 57.29f;
+	float32 x = 0.f, y = 9.8f;
+	b2Vec2 grav = b2Vec2(x, y);
+	b2World World = b2World(grav);
+	b2Body* pBody;
+private:
 	sf::RenderWindow window;
-	sf::Sprite background, player, food, enemy, end, menu;
+	sf::Sprite background, player, food, enemy, end, menu, earth;
 	std::map<std::string, std::unique_ptr<sf::Texture>> textures;
 	std::list<sf::Sprite*> sprites;
 
