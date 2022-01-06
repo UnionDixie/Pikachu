@@ -1,43 +1,43 @@
+#pragma once
+
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
-#include <vector>
-#include <list>
-#include <map>
-#include <memory>
+
+#include "../tutorial/Holder.h"
 
 class Game
 {
 public:
 	Game();
 	void run();
-	~Game();	
+	~Game() = default;	
 private:
+	void init();
 	void update();
+	void input();
 	void render();
 	void renderGame();
 	void renderMenu();
 	void renderEnd();
+public:
+	void playerJump();
+	void closeGame();
+	void startGame();
+	void restartGame();
+	void clearScreen();
+	void startMusicFon();
+	void checkClose(sf::Event& ev);
+	void checkNewGame(sf::Event& ev);
 private:
-	sf::RenderWindow window;
-	sf::Sprite background, player, food, enemy, end, menu;
-	std::map<std::string, std::unique_ptr<sf::Texture>> textures;
-	std::list<sf::Sprite*> sprites;
-
-	std::list<std::pair<sf::Sprite,int>> entity;
-
-	int score = 0;
-	int hp = 100;
-	bool live = true;
-	bool jump = false;
-	bool isMenu = true;
-	bool isRun = true;
-
-	sf::Font font;
-	sf::Text text;
-
-	sf::SoundBuffer meow,gameover,fonMusic;
-	sf::Sound s1, s2,s3;
-
+	sf::RenderWindow m_window;
+	Holder holder;
+private:
+	int m_score = 0;
+	int m_hp = 100;
+	bool m_live = true;
+	bool m_jump = false;
+	bool m_isMenu = true;
+	bool m_isRun = true;
+	sf::Vector2f m_move;
 };
 
 

@@ -18,5 +18,6 @@
 *.exp
 *.exe
 *.rar
+/Pikachu/.vs/
 /Pikachu/Debug/
 Pikachu/Release/

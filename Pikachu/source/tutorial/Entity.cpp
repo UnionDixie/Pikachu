@@ -1,36 +1,36 @@
 #include "Entity.h"
 
 
-
-Entity::Entity(const sf::Texture& texture, int id) noexcept : frame(texture), velocity(sf::Vector2f(0, 1.0f)), id(id)
+Entity::Entity(const sf::Texture& texture, int id) noexcept :
+	m_frame(texture), m_velocity(sf::Vector2f(0, 1.0f)), m_id(id)
 {
-	sf::Vector2f pos(sf::Vector2f(Random::rnd(10, 100), -2));
-	frame.setPosition(pos);
-	sf::FloatRect bounds = frame.getGlobalBounds();
-	frame.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
+	constexpr int min = 10;
+	constexpr int max = 100;
+
+	const sf::Vector2f pos(sf::Vector2f(Random::rnd(min, max), -2));
+	m_frame.setPosition(pos);
+
+	const sf::FloatRect bounds = m_frame.getGlobalBounds();
+	m_frame.setOrigin(bounds.width / 2.f, bounds.height / 2.f);
 }
 
 void Entity::draw(sf::RenderTarget& target, sf::RenderStates states) const
 {
-	target.draw(frame, states);
+	target.draw(m_frame, states);
 }
 
 
 void Entity::update(sf::Time dt)
 {
-	frame.move(dt.asSeconds() * velocity);
+	m_frame.move(dt.asSeconds() * m_velocity);
 }
 
-const sf::FloatRect& Entity::getBound() const {
-	return frame.getGlobalBounds();
+sf::FloatRect Entity::getBound() const {
+	return m_frame.getGlobalBounds();
 }
 
 const int Entity::getID() const
 {
-	return id;
+	return m_id;
 }
 
-
-Entity::~Entity()
-{
-}

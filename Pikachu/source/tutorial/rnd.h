@@ -4,11 +4,12 @@
 
 namespace Random {
     using ll = long long;
-    inline std::random_device r;
-    inline std::default_random_engine e1(r());
+    static std::random_device device;
+    static std::default_random_engine engine(device());
 
-    inline ll rnd(ll a, ll b) {
-        std::uniform_int_distribution<ll> uniform_dist(a, b);
-        return uniform_dist(e1);
+    static ll rnd(ll min, ll max) {
+        const std::uniform_int_distribution<ll> uniform_dist(min, max);
+
+        return uniform_dist(engine);
     }
 }
